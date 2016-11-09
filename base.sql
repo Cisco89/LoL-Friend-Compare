@@ -1,4 +1,4 @@
-CREATE DATABASE lol_friend_compare;
+CREATE DATABASE IF NOT EXISTS lol_friend_compare;
 
 USE lol_friend_compare;
 
