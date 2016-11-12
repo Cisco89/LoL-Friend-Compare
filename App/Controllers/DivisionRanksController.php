@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-
-class TiersController extends BaseController
+class DivisionRanksController extends BaseController
 {
     public function create()
     {

@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
-
 abstract class BaseController
 {
+    /**
+     * @var \Mustache_Engine
+     */
     protected $view;
 
     public function __construct()

@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-
 class SummonerChampionsController
 {
     public function create()

@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-
 class ChampionsController extends BaseController
 {
     public function create()

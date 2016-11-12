@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-
 class SummonersController extends BaseController 
 {
     public function create()

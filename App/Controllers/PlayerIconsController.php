@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-
 class PlayerIconsController extends BaseController
 {
     public function create()
