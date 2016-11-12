@@ -6,7 +6,9 @@ class UsersController extends BaseController
 {
     public function create()
     {
-        return $this->view->render('users_register', ['user' => 'Cisco']);
+        return $this->view->render('users_register.html', [
+            'user' => 'Cisco'
+        ]);
     }
 
     public function store()

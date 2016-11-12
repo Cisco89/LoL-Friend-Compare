@@ -5,16 +5,15 @@ namespace App\Controllers;
 abstract class BaseController
 {
     /**
-     * @var \Mustache_Engine
+     * @var \Twig_Environment
      */
     protected $view;
 
     public function __construct()
     {
-        $this->view = new \Mustache_Engine(
-            [
-                'loader' => new \Mustache_Loader_FilesystemLoader( VIEWPATH )
-            ]
-        );
+        $loader = new \Twig_Loader_Filesystem(VIEWPATH);
+        $this->view = new \Twig_Environment($loader);
+
     }
 }
+
