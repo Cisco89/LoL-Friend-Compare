@@ -3,20 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use Zend\Diactoros\Request;
 
 class UsersController extends BaseController
 {
     public function create()
     {
-        $model = new UsersModel();
-        $model->insert(1);
-        return $this->view->render('users_register.html', [
-            'user' => 'Cisco'
-        ]);
+        return $this->view->render('users_register.html');
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $model = new UsersModel();
+        $model->insert();
 
     }
 

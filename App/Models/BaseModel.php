@@ -32,8 +32,10 @@ abstract class BaseModel
 
     abstract public function findOne();
 
-    public function insert($data) {
-        var_dump($this->pdo);
-        die();
+    public function insert(Array $data) {
+        $columns = implode(",", array_keys($data));
+        $values = implode(",", $data);
+        $statement = $this->pdo->prepare(sprintf("insert into %s (%s) values (%s)", $this->table, $columns, $values));
+        $statement->execute();
     }
 }
