@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
-use Zend\Diactoros\Request;
+use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
 {
@@ -12,11 +12,15 @@ class UsersController extends BaseController
         return $this->view->render('users_register.html');
     }
 
-    public function store(Request $request)
+    public function store(ServerRequest $request)
     {
-        $model = new UsersModel();
-        $model->insert();
+        if ( $request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
+            echo 'Passwords do not match!';
+            return;
+        }
 
+        echo 'Passwords Match!';
+        return;
     }
 
     public function show()

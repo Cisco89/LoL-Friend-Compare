@@ -25,7 +25,7 @@ $container->share('emitter', \Zend\Diactoros\Response\SapiEmitter::class);
 $route = new \League\Route\RouteCollection($container);
 
 $route->map('GET', '/', [$container->get('UsersController'), 'create']);
-$route->map('POST', '/users/registration', [$container->get('UsersController'), 'create']);
+$route->map('POST', '/users/registration', [$container->get('UsersController'), 'store']);
 
 $response = $route->dispatch($container->get('request'), $container->get('response'));
 
