@@ -11,7 +11,7 @@ abstract class BaseModel
 
     public function __construct()
     {
-        $host = '127.0.0.1';
+        $host = 'database';
         $db = 'lol_friend_compare';
         $user = 'developer';
         $pass = 'developer';
