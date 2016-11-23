@@ -1,0 +1,20 @@
+services:
+  lol-friend-compare:
+    build: .
+    image: php:5.6-apache
+    volumes:
+      - ../:/srv/lol-friend-compare
+    ports:
+      - 80:80
+      - 443:443
+      - 9000:9000
+  database:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=developer
+      - MYSQL_DATABASE=lol_friend_compare
+      - MYSQL_USER=developer
+      - MYSQL_PASSWORD=developer
+    volumes:
+      - ./base.sql:/docker-entrypoint-initdb.d/base.sql
+version: "2"
