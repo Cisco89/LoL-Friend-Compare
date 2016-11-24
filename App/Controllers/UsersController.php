@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Services\Authenticate;
 use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
@@ -14,13 +15,19 @@ class UsersController extends BaseController
 
     public function store(ServerRequest $request)
     {
-        if ( $request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
-            echo 'Passwords do not match!';
-            return;
+        // @todo evaluate scope
+        $authenticate = new Authenticate();
+
+        if (!$authenticate->register($request)){
+
+            header('Location: http://lol-friend-compare.local/users/registration');
+            exit();
+
         }
 
-        echo 'Passwords Match!';
-        return;
+        // @todo implement view
+        header('Location: http://lol-friend-compare.local/users/login');
+        exit();
     }
 
     public function show()
