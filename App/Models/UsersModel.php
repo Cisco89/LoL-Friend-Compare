@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cisco
- * Date: 11/12/16
- * Time: 1:11 AM
- */
 
 namespace App\Models;
-
 
 class UsersModel extends BaseModel
 {
@@ -20,12 +13,11 @@ class UsersModel extends BaseModel
 
     public function findAll()
     {
-        // TODO: Implement findAll() method.
-
+        // @TODO: Implement findAll() method.
     }
 
     public function findOne()
     {
-        // TODO: Implement findOne() method.
+        // @TODO: Implement findOne() method.
     }
 }

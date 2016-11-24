@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use League\Route\Http\Exception;
 use PDO;
 
 abstract class BaseModel
@@ -32,10 +33,17 @@ abstract class BaseModel
 
     abstract public function findOne();
 
-    public function insert(Array $data) {
+    /**
+     * @param array $data
+     * @throws Exception
+     */
+    public function create(Array $data) {
         $columns = implode(",", array_keys($data));
-        $values = implode(",", $data);
-        $statement = $this->pdo->prepare(sprintf("insert into %s (%s) values (%s)", $this->table, $columns, $values));
-        $statement->execute();
+        $values = implode("','", $data);
+        $query = sprintf("insert into %s (%s) values ('%s')", $this->table, $columns, $values);
+        $statement = $this->pdo->prepare($query);
+        if (!$statement->execute()){
+            throw new Exception('Failed to create entry.');
+        }
     }
 }
