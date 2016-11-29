@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use League\Route\Http\Exception;
+use Exception;
 use PDO;
 
 abstract class BaseModel
@@ -31,7 +31,7 @@ abstract class BaseModel
 
     abstract public function findAll();
 
-    abstract public function findOne();
+    abstract public function findOne(Array $getParseBody);
 
     /**
      * @param array $data

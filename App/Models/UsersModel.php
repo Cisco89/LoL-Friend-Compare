@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Exception;
+
 class UsersModel extends BaseModel
 {
 
@@ -16,8 +18,13 @@ class UsersModel extends BaseModel
         // @TODO: Implement findAll() method.
     }
 
-    public function findOne()
+    public function findOne(Array $userData)
     {
-        // @TODO: Implement findOne() method.
+        $query = "select `password` from `users` where `username` = '{$userData['username']}';";
+        $statement = $this->pdo->prepare($query);
+        if (!$statement->execute()) {
+            throw new Exception('Failed to create entry.');
+        }
+        return $statement->fetch();
     }
 }

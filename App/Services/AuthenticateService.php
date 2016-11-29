@@ -6,8 +6,7 @@ use App\Models\UsersModel;
 use League\Route\Http\Exception;
 use Zend\Diactoros\ServerRequest;
 
-// @todo refactor class name to AuthenticateService
-class Authenticate
+class AuthenticateService
 {
     /**
      * @param ServerRequest $request
@@ -22,7 +21,7 @@ class Authenticate
             if ( $request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
                 return false;
             }
-
+            // @todo do not allow duplicate accounts
             // @todo talk about injection
             $model = new UsersModel();
 
@@ -38,9 +37,29 @@ class Authenticate
 
     }
 
-    public function login()
+    public function login(ServerRequest $request)
     {
         // @todo validate entries to a registered user
+        try {
+
+            if ( $request->getParsedBody()['username'] === ''
+                || $request->getParsedBody()['password'] === '') {
+                return false;
+            }
+            // @todo do not allow duplicate accounts
+            // @todo talk about injection
+            $model = new UsersModel();
+
+            $user = $model->findOne( $request->getParsedBody());
+
+            if ( $request->getParsedBody()['password'] !== $user['password']) {
+                return false;
+            }
+            return true;
+
+        } catch (Exception $exception) {
+            return false;
+        }
     }
 
     public function resetPassword()

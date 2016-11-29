@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
-use App\Services\Authenticate;
+use App\Services\AuthenticateService;
 use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
@@ -16,7 +16,7 @@ class UsersController extends BaseController
     public function store(ServerRequest $request)
     {
         // @todo evaluate scope
-        $authenticate = new Authenticate();
+        $authenticate = new AuthenticateService();
 
         if (!$authenticate->register($request)){
 
@@ -30,9 +30,22 @@ class UsersController extends BaseController
         exit();
     }
 
-    public function show()
+    public function login()
     {
+        session_start();
+        return $this->view->render('users_login.html');
+    }
 
+    public function validate(ServerRequest $request)
+    {
+        $validate = new AuthenticateService();
+
+        if (!$validate->login($request)){
+
+            header('Location: http://lol-friend-compare.local/users/login');
+            exit();
+        }
+        return $this->view->render('welcome_user.html');
     }
 
     public function edit()

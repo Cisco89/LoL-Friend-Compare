@@ -26,6 +26,8 @@ $route = new \League\Route\RouteCollection($container);
 
 $route->map('GET', '/', [$container->get('UsersController'), 'create']);
 $route->map('POST', '/users/registration', [$container->get('UsersController'), 'store']);
+$route->map('GET', '/users/login', [$container->get('UsersController'), 'login']);
+$route->map('POST', '/users/login', [$container->get('UsersController'), 'validate']);
 
 $response = $route->dispatch($container->get('request'), $container->get('response'));
 
