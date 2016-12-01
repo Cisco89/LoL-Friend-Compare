@@ -12,9 +12,10 @@ CREATE TABLE IF NOT EXISTS player_icon
 CREATE TABLE IF NOT EXISTS users
 (
   id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -24,6 +25,8 @@ CREATE TABLE IF NOT EXISTS division_ranks
   tier VARCHAR(45) NOT NULL,
   division ENUM('I', 'II', 'III', 'IV', 'V') NOT NULL,
   image VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -32,6 +35,8 @@ CREATE TABLE IF NOT EXISTS champions
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL,
   image VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -47,6 +52,8 @@ CREATE TABLE IF NOT EXISTS summoners
     player_icon_id INT NOT NULL,
     users_id INT NOT NULL,
     division_ranks_id INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (player_icon_id) REFERENCES player_icon(id),
     FOREIGN KEY (users_id) REFERENCES users(id),
@@ -59,6 +66,8 @@ CREATE TABLE IF NOT EXISTS matches
     role ENUM('Top', 'Jungle', 'Middle', 'Bottom', 'Support') not null,
     victory BOOLEAN NULL,
     summoners_id INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (summoners_id) REFERENCES summoners(id)
 );
@@ -69,6 +78,8 @@ CREATE TABLE IF NOT EXISTS summoner_champions
     level INT,
     summoners_id INT NOT NULL,
     champions_id INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (summoners_id) REFERENCES summoners(id),
     FOREIGN KEY (champions_id) REFERENCES champions(id)

@@ -3,7 +3,12 @@
         "league/route": "^2.0",
         "zendframework/zend-diactoros": "^1.3",
         "mustache/mustache": "^2.11",
-        "twig/twig": "^1.27"
+        "twig/twig": "^1.27",
+        "cartalyst/sentinel": "^2.0",
+        "illuminate/database": "^5.3",
+        "vlucas/phpdotenv": "^2.4",
+        "illuminate/events": "^5.3",
+        "symfony/http-foundation": "^3.2"
     },
     "autoload": {
         "psr-4": {

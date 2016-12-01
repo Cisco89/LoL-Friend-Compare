@@ -1,5 +1,10 @@
 <?php
 
+use League\Container\Container;
+use App\Controllers\UsersController;
+use Zend\Diactoros\Response;
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 define( 'BASEPATH', dirname(__FILE__));
 define( 'VIEWPATH', dirname(__FILE__) . '/App/Views');
 
@@ -8,9 +13,19 @@ require 'vendor/autoload.php';
 $dotenv = new \Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
-use League\Container\Container;
-use App\Controllers\UsersController;
-use Zend\Diactoros\Response;
+$capsule = new Capsule;
+
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => getenv("DATABASE_HOST"),
+    'database'  => getenv("DATABASE_NAME"),
+    'username'  => getenv("DATABASE_USER"),
+    'password'  => getenv("DATABASE_PASSWORD"),
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+]);
+
+$capsule->bootEloquent();
 
 $container = new Container();
 

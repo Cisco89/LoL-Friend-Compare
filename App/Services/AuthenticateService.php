@@ -5,9 +5,17 @@ namespace App\Services;
 use App\Models\UsersModel;
 use League\Route\Http\Exception;
 use Zend\Diactoros\ServerRequest;
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
 class AuthenticateService
 {
+    private $sentinel;
+
+    public function __construct()
+    {
+        $facade = new Sentinel();
+        $this->sentinel = $facade->getSentinel();
+    }
     /**
      * @param ServerRequest $request
      * @return bool
@@ -23,12 +31,13 @@ class AuthenticateService
             }
             // @todo do not allow duplicate accounts
             // @todo talk about injection
-            $model = new UsersModel();
 
-            $data = $request->getParsedBody();
-            unset($data['repeatPassword']);
+            $credentials = $request->getParsedBody();
+            unset($credentials['repeatPassword']);
 
-            $model->create($data);
+            $user = $this->sentinel->register($credentials);
+
+            ;
             return true;
 
         } catch (Exception $exception) {
