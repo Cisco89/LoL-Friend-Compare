@@ -5,6 +5,8 @@ define( 'VIEWPATH', dirname(__FILE__) . '/App/Views');
 
 require 'vendor/autoload.php';
 
+$dotenv = new \Dotenv\Dotenv(__DIR__);
+$dotenv->load();
 
 use League\Container\Container;
 use App\Controllers\UsersController;
