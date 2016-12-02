@@ -12,8 +12,10 @@ CREATE TABLE IF NOT EXISTS player_icon
 CREATE TABLE IF NOT EXISTS users
 (
   id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(255) NOT NULL,
+  last_login DATETIME,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL,
   PRIMARY KEY (id)
@@ -83,4 +85,14 @@ CREATE TABLE IF NOT EXISTS summoner_champions
     PRIMARY KEY (id),
     FOREIGN KEY (summoners_id) REFERENCES summoners(id),
     FOREIGN KEY (champions_id) REFERENCES champions(id)
+);
+
+CREATE TABLE IF NOT EXISTS persistences
+(
+  id INT NOT NULL AUTO_INCREMENT,
+  code VARCHAR(255) NOT NULL,
+  user_id INT NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  PRIMARY KEY (id)
 );

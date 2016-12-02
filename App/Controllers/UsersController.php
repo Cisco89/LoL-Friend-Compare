@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\UsersModel;
 use App\Services\AuthenticateService;
 use Zend\Diactoros\ServerRequest;
 
@@ -25,14 +24,12 @@ class UsersController extends BaseController
 
         }
 
-        // @todo implement view
         header('Location: http://lol-friend-compare.local/users/login');
         exit();
     }
 
     public function login()
     {
-        session_start();
         return $this->view->render('users_login.html');
     }
 

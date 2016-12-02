@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\UsersModel;
-use League\Route\Http\Exception;
+use Cartalyst\Sentinel\Native\SentinelBootstrapper;
 use Zend\Diactoros\ServerRequest;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
@@ -13,7 +12,9 @@ class AuthenticateService
 
     public function __construct()
     {
-        $facade = new Sentinel();
+        $config = include BASEPATH . '/App/Config/sentinelConfig.php';
+        $sentinelBootstrapper = new SentinelBootstrapper($config);
+        $facade = new Sentinel($sentinelBootstrapper);
         $this->sentinel = $facade->getSentinel();
     }
     /**
@@ -24,51 +25,25 @@ class AuthenticateService
     {
         // @todo implement a class to return success/failure and reason for failure
 
-        try {
-
-            if ( $request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
-                return false;
-            }
-            // @todo do not allow duplicate accounts
-            // @todo talk about injection
-
-            $credentials = $request->getParsedBody();
-            unset($credentials['repeatPassword']);
-
-            $user = $this->sentinel->register($credentials);
-
-            ;
-            return true;
-
-        } catch (Exception $exception) {
+        if ( $request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
             return false;
         }
+
+        $credentials = $request->getParsedBody();
+        unset($credentials['repeatPassword']);
+
+        return $this->sentinel->register($credentials);
+
 
     }
 
     public function login(ServerRequest $request)
     {
-        // @todo validate entries to a registered user
-        try {
+        $credentials = $request->getParsedBody();
 
-            if ( $request->getParsedBody()['username'] === ''
-                || $request->getParsedBody()['password'] === '') {
-                return false;
-            }
-            // @todo do not allow duplicate accounts
-            // @todo talk about injection
-            $model = new UsersModel();
+        return $this->sentinel->authenticate($credentials, true);
 
-            $user = $model->findOne( $request->getParsedBody());
 
-            if ( $request->getParsedBody()['password'] !== $user['password']) {
-                return false;
-            }
-            return true;
-
-        } catch (Exception $exception) {
-            return false;
-        }
     }
 
     public function resetPassword()

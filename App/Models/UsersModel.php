@@ -2,29 +2,24 @@
 
 namespace App\Models;
 
-use Exception;
+use Cartalyst\Sentinel\Users\EloquentUser;
 
-class UsersModel extends BaseModel
+class UsersModel extends EloquentUser
 {
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'username',
+        'email',
+        'password',
+        'last_name',
+        'first_name',
+        'permissions',
+    ];
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->table = "users";
-    }
-
-    public function findAll()
-    {
-        // @TODO: Implement findAll() method.
-    }
-
-    public function findOne(Array $userData)
-    {
-        $query = "select `password` from `users` where `username` = '{$userData['username']}';";
-        $statement = $this->pdo->prepare($query);
-        if (!$statement->execute()) {
-            throw new Exception('Failed to create entry.');
-        }
-        return $statement->fetch();
-    }
+    /**
+     * @var array
+     */
+    protected $loginNames = ['username', 'email'];
 }
