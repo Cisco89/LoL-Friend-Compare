@@ -17,6 +17,7 @@ class AuthenticateService
         $facade = new Sentinel($sentinelBootstrapper);
         $this->sentinel = $facade->getSentinel();
     }
+
     /**
      * @param ServerRequest $request
      * @return bool
@@ -25,7 +26,7 @@ class AuthenticateService
     {
         // @todo implement a class to return success/failure and reason for failure
 
-        if ( $request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
+        if ($request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
             return false;
         }
 
@@ -46,14 +47,15 @@ class AuthenticateService
 
     }
 
+    public function logout()
+    {
+        // @todo logout user from current session, provide a validation page that states logout was successful
+        return $this->sentinel->logout();
+    }
+
     public function resetPassword()
     {
         // @todo reset a user's password via sending and email link,
         // new password should not match immediate previous password
-    }
-
-    public function logout()
-    {
-        // @todo logout user from current session, provide a validation page that states logout was successful
     }
 }

@@ -7,6 +7,15 @@ use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
 {
+    private $authenticateService;
+
+    public function __construct()
+    {
+        $this->authenticateService = new AuthenticateService();
+
+        parent::__construct();
+    }
+
     public function create()
     {
         return $this->view->render('users_register.html');
@@ -14,10 +23,8 @@ class UsersController extends BaseController
 
     public function store(ServerRequest $request)
     {
-        // @todo evaluate scope
-        $authenticate = new AuthenticateService();
 
-        if (!$authenticate->register($request)){
+        if (!$this->authenticateService->register($request)) {
 
             header('Location: http://lol-friend-compare.local/users/registration');
             exit();
@@ -35,14 +42,22 @@ class UsersController extends BaseController
 
     public function validate(ServerRequest $request)
     {
-        $validate = new AuthenticateService();
-
-        if (!$validate->login($request)){
+        if (!$this->authenticateService->login($request)) {
 
             header('Location: http://lol-friend-compare.local/users/login');
             exit();
         }
         return $this->view->render('welcome_user.html');
+    }
+
+    public function logout()
+    {
+        if (!$this->authenticateService->logout()) {
+
+            throw new \Exception();
+        }
+
+        return $this->view->render('successful_logout.html');
     }
 
     public function edit()
