@@ -10,6 +10,8 @@ class AuthenticateService
 {
     private $sentinel;
 
+    // @todo leverage dependency injection here
+
     public function __construct()
     {
         $config = include BASEPATH . '/App/Config/sentinelConfig.php';

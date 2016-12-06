@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'session' => 'cartalyst_sentinel',
+    'session' => 'light_of_demacia',
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'cookie' => 'cartalyst_sentinel',
+    'cookie' => 'light_of_demacia',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
 
     'roles' => [
 
-        'model' => 'Cartalyst\Sentinel\Roles\EloquentRole',
+        'model' => \Cartalyst\Sentinel\Roles\EloquentRole::class,
 
     ],
 
@@ -95,7 +95,7 @@ return [
 
     'permissions' => [
 
-        'class' => 'Cartalyst\Sentinel\Permissions\StandardPermissions',
+        'class' => \Cartalyst\Sentinel\Permissions\StandardPermissions::class,
 
     ],
 
@@ -111,7 +111,7 @@ return [
 
     'persistences' => [
 
-        'model' => 'Cartalyst\Sentinel\Persistences\EloquentPersistence',
+        'model' => \Cartalyst\Sentinel\Persistences\EloquentPersistence::class,
 
         'single' => true,
 
@@ -149,7 +149,7 @@ return [
 
     'activations' => [
 
-        'model' => 'Cartalyst\Sentinel\Activations\EloquentActivation',
+        'model' => \Cartalyst\Sentinel\Activations\EloquentActivation::class,
 
         'expires' => 259200,
 
@@ -171,7 +171,7 @@ return [
 
     'reminders' => [
 
-        'model' => 'Cartalyst\Sentinel\Reminders\EloquentReminder',
+        'model' => \Cartalyst\Sentinel\Reminders\EloquentReminder::class,
 
         'expires' => 14400,
 
@@ -223,7 +223,7 @@ return [
 
     'throttling' => [
 
-        'model' => 'Cartalyst\Sentinel\Throttling\EloquentThrottle',
+        'model' => \Cartalyst\Sentinel\Throttling\EloquentThrottle::class,
 
         'global' => [
 
