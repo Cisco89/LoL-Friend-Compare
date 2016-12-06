@@ -1,3 +1,14 @@
 <div>
-<h1>Welcome User</h1>
+
+    <h1>Welcome User</h1>
+
+    {% if not summoners %}
+
+    <form action="/users/login" method="POST">
+        <input type="text" placeholder="Summoner Name" name="summoner_name"/>
+        <input type="submit" value="Add Summoner" />
+    </form>
+
+    {% endif %}
+
 </div>

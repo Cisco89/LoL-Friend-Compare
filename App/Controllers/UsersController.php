@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UsersModel;
 use App\Services\AuthenticateService;
 use Zend\Diactoros\ServerRequest;
 
@@ -42,12 +43,15 @@ class UsersController extends BaseController
 
     public function validate(ServerRequest $request)
     {
-        if (!$this->authenticateService->login($request)) {
+        /** @var UsersModel $user */
+        $user = $this->authenticateService->login($request);
+
+        if (!$user) {
 
             header('Location: http://lol-friend-compare.local/users/login');
             exit();
         }
-        return $this->view->render('welcome_user.html');
+        return $this->view->render('welcome_user.html', ['summoners'=>$user->summoners()]);
     }
 
     public function logout()
