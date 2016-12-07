@@ -4,13 +4,18 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Services\AuthenticateService;
-use Illuminate\Database\Eloquent\Collection;
 use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
 {
+    /**
+     * @var AuthenticateService
+     */
     private $authenticateService;
 
+    /**
+     * UsersController constructor.
+     */
     public function __construct()
     {
         $this->authenticateService = new AuthenticateService();
@@ -18,11 +23,17 @@ class UsersController extends BaseController
         parent::__construct();
     }
 
+    /**
+     * @return string
+     */
     public function create()
     {
         return $this->view->render('users_register.html');
     }
 
+    /**
+     * @param ServerRequest $request
+     */
     public function store(ServerRequest $request)
     {
 
@@ -37,11 +48,18 @@ class UsersController extends BaseController
         exit();
     }
 
+    /**
+     * @return string
+     */
     public function login()
     {
         return $this->view->render('users_login.html');
     }
 
+    /**
+     * @param ServerRequest $request
+     * @return string
+     */
     public function validate(ServerRequest $request)
     {
         /** @var UsersModel $user */
@@ -56,6 +74,10 @@ class UsersController extends BaseController
         return $this->view->render('welcome_user.html', ['summoners'=>$user->summoners()->getResults()->all()]);
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function logout()
     {
         if (!$this->authenticateService->logout()) {

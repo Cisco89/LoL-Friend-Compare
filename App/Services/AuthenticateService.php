@@ -8,10 +8,16 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
 class AuthenticateService
 {
+    /**
+     * @var \Cartalyst\Sentinel\Sentinel
+     */
     private $sentinel;
 
     // @todo leverage dependency injection here
 
+    /**
+     * AuthenticateService constructor.
+     */
     public function __construct()
     {
         $config = include BASEPATH . '/App/Config/sentinelConfig.php';
@@ -40,6 +46,10 @@ class AuthenticateService
 
     }
 
+    /**
+     * @param ServerRequest $request
+     * @return bool|\Cartalyst\Sentinel\Users\UserInterface
+     */
     public function login(ServerRequest $request)
     {
         $credentials = $request->getParsedBody();
