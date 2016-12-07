@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Services\AuthenticateService;
+use Illuminate\Database\Eloquent\Collection;
 use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
@@ -51,7 +52,8 @@ class UsersController extends BaseController
             header('Location: http://lol-friend-compare.local/users/login');
             exit();
         }
-        return $this->view->render('welcome_user.html', ['summoners'=>$user->summoners()]);
+
+        return $this->view->render('welcome_user.html', ['summoners'=>$user->summoners()->getResults()->all()]);
     }
 
     public function logout()
