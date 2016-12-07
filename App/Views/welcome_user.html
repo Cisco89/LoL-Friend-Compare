@@ -4,8 +4,8 @@
 
     {% if not summoners %}
 
-    <form action="/users/login" method="POST">
-        <input type="text" placeholder="Summoner Name" name="summoner_name"/>
+    <form action="/summoners/add" method="POST">
+        <input type="text" placeholder="Summoner Name" name="name"/>
         <input type="submit" value="Add Summoner" />
     </form>
 

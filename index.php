@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\SummonersController;
 use League\Container\Container;
 use App\Controllers\UsersController;
 use Zend\Diactoros\Response;
@@ -30,6 +31,7 @@ $capsule->bootEloquent();
 $container = new Container();
 
 $container->share('UsersController', UsersController::class);
+$container->share('SummonersController', SummonersController::class);
 $container->share('response', Response::class);
 $container->share('request', function (){
    return \Zend\Diactoros\ServerRequestFactory::fromGlobals(
@@ -46,6 +48,8 @@ $route->map('POST', '/users/registration', [$container->get('UsersController'), 
 $route->map('GET', '/users/login', [$container->get('UsersController'), 'login']);
 $route->map('POST', '/users/login', [$container->get('UsersController'), 'validate']);
 $route->map('GET', '/users/logout', [$container->get('UsersController'), 'logout']);
+$route->map('GET', '/summoners/add', [$container->get('SummonersController'), 'create']);
+$route->map('POST', '/summoners/add', [$container->get('SummonersController'), 'store']);
 
 $response = $route->dispatch($container->get('request'), $container->get('response'));
 
