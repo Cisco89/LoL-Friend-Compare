@@ -3,20 +3,29 @@
 namespace App\Controllers;
 
 use App\Models\SummonersModel;
+use App\Services\LeagueOfLegendsService;
 use Zend\Diactoros\ServerRequest;
 
 class SummonersController extends BaseController
 {
+    /**
+     * @return string
+     */
     public function create()
     {
         return $this->view->render('summoners.html');
     }
 
+    /**
+     * @param ServerRequest $request
+     */
     public function store(ServerRequest $request)
     {
         $summoner = new SummonersModel();
 
         $data = $request->getParsedBody();
+
+        $leagueOfLegendsService = new LeagueOfLegendsService($data['name']);
 
         $dummyData = [
             'summoner_id' => 1,
