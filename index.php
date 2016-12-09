@@ -50,6 +50,7 @@ $route->map('POST', '/users/login', [$container->get('UsersController'), 'valida
 $route->map('GET', '/users/logout', [$container->get('UsersController'), 'logout']);
 $route->map('GET', '/summoners/add', [$container->get('SummonersController'), 'create']);
 $route->map('POST', '/summoners/add', [$container->get('SummonersController'), 'store']);
+$route->map('GET', '/summoners/{id}/remove', [$container->get('SummonersController'), 'destroy']);
 
 $response = $route->dispatch($container->get('request'), $container->get('response'));
 

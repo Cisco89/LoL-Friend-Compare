@@ -54,8 +54,18 @@ class SummonersController extends BaseController
         
     }
 
-    public function destroy()
+    /**
+     * @param ServerRequest $request
+     * @param $response
+     * @param $arguments
+     */
+    public function destroy(ServerRequest $request, $response, $arguments)
     {
-        
+        $summonerModel = new SummonersModel();
+
+        /** @var SummonersModel $summoner */
+        $summoner = $summonerModel->find($arguments['id']);
+
+        $summoner->delete();
     }
 }
