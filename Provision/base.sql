@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS summoners
     level INT NOT NULL,
     total_champion_mastery INT NOT NULL,
     main_role_played VARCHAR(45) NOT NULL,
-    champions_owned INT NOT NULL,
+    champions_with_points INT NOT NULL,
     player_icon_id INT NOT NULL,
     users_id INT NOT NULL,
     division_ranks_id INT NOT NULL,
