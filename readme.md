@@ -5,3 +5,15 @@
 
 ## Install Docker Compose Vagrant plugin:
 `vagrant plugin install vagrant-docker-compose`
+
+## Rebuild Docker Containers
+Additionally will build database from base.sql file
+
+```
+docker-compose stop && \
+yes | docker-compose rm && \
+docker-compose pull && \
+docker-compose build && \
+docker-compose create && \
+docker-compose start
+```
