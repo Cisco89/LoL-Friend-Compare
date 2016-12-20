@@ -28,17 +28,17 @@ class SummonersController extends BaseController
         $leagueOfLegendsService = new LeagueOfLegendsService($data['name']);
 
         $dummyData = [
-            'summoner_id' => 1,
-            'level' => 30,
-            'total_champion_mastery' => 1337,
-            'main_role_played' => 'Top',
-            'champions_owned' => 127,
-            'player_icon_id' => 255,
-            'users_id' => 1,
-            'division_ranks_id' => 1,
+            'summoner_id' => 1,                 // returns with name
+            'level' => 30,                      // returns with name
+            'total_champion_mastery' => 1337,   // it's own query, by total mastery points
+            'main_role_played' => 'Top',        // matchlist, nested array key value 'lane'
+            'champions_with_points' => 127,     // query on champions use count($array) to find #
+            'player_icon_id' => 255,            // returns with name
+            'users_id' => 1,                    // needs to be stored in cache when logged in
+            'division_ranks_id' => 1,           // it's own query under League
         ];
 
-        $result = array_merge($data, $dummyData);
+        $result = array_merge($dummyData, $data);
 
         $summoner->fill($result);
 
