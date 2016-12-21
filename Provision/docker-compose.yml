@@ -19,4 +19,5 @@ services:
       - MYSQL_PASSWORD=developer
     volumes:
       - ./base.sql:/docker-entrypoint-initdb.d/base.sql
+      - ./seeds/seedData.sql:/docker-entrypoint-initdb.d/seedData.sql
 version: "2"
