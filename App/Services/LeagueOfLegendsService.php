@@ -20,18 +20,22 @@ class LeagueOfLegendsService
         $summoner = $api->summoner();
         $championMastery = $api->championmastery();
 
-        $summonerInfo = $summoner->info($name);
+        $summonerInfo = $summoner->info($name)->raw();
 
-        $totalChampionMastery = $championMastery->score($summonerInfo->get('id'));
+        $summonerArray = [];
+        $summonerArray['summoner_id']       = $summonerInfo['id'];
+        $summonerArray['name']              = $summonerInfo['name'];
+        $summonerArray['player_icon_id']    = $summonerInfo['profileIconId'];
+        $summonerArray['level']             = $summonerInfo['summonerLevel'];
 
-        $championsWithPoints = count($championMastery->champions($summonerInfo->get('id')));
+        $totalChampionMastery = $championMastery->score($summonerInfo['id']);
 
-        $divisionRank = $api->league()->league($summonerInfo->get('id'), true);
+        $championsWithPoints = count($championMastery->champions($summonerInfo['id']));
 
-        // @todo fix it fix it fix it!
+        $divisionRank = $api->league()->league($summonerInfo['id'], true);
 
         $this->summonerData = array_merge(
-            $summonerInfo->raw(),
+            $summonerArray,
             ['total_champion_mastery' => $totalChampionMastery],
             ['champions_with_points' => $championsWithPoints],
             ['tier' => $divisionRank[0]->get('tier')],

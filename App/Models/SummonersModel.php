@@ -18,7 +18,7 @@ class SummonersModel extends Model
         'level',  
         'total_champion_mastery',
         'main_role_played',
-        'champions_owned',
+        'champions_with_points',
         'player_icon_id',
         'users_id',
         'division_ranks_id',
