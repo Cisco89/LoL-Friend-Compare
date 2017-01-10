@@ -48,20 +48,32 @@ class AuthenticateService
 
     /**
      * @param ServerRequest $request
-     * @return bool|\Cartalyst\Sentinel\Users\UserInterface
+     * @return bool
      */
     public function login(ServerRequest $request)
     {
+        session_start();
+
         $credentials = $request->getParsedBody();
 
-        return $this->sentinel->authenticate($credentials, true);
+        if(!$user = $this->sentinel->authenticate($credentials, true)) {
+            return false;
+        }
 
+        $_SESSION['user'] = [
+            'id' => $user->getUserId(),
+            'name' => $user->getUserLogin(),
+        ];
 
+        return true;
     }
 
     public function logout()
     {
         // @todo logout user from current session, provide a validation page that states logout was successful
+        session_unset();
+        session_destroy();
+
         return $this->sentinel->logout();
     }
 

@@ -4,10 +4,18 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Services\AuthenticateService;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
 {
+    /**
+     * @var UsersModel
+     */
+    private $userModel;
+
     /**
      * @var AuthenticateService
      */
@@ -19,6 +27,8 @@ class UsersController extends BaseController
     public function __construct()
     {
         $this->authenticateService = new AuthenticateService();
+
+        $this->userModel = new UsersModel();
 
         parent::__construct();
     }
@@ -62,14 +72,14 @@ class UsersController extends BaseController
      */
     public function validate(ServerRequest $request)
     {
-        /** @var UsersModel $user */
-        $user = $this->authenticateService->login($request);
-
-        if (!$user) {
+        if (!$this->authenticateService->login($request)) {
 
             header('Location: http://lol-friend-compare.local/users/login');
             exit();
         }
+
+        /** @var UsersModel $user */
+        $user = $this->userModel->where('id', $_SESSION['user']['id'])->get()->first();
 
         return $this->view->render('welcome_user.html', ['summoners'=>$user->summoners()->getResults()->all()]);
     }

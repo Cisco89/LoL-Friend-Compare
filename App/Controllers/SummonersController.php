@@ -43,10 +43,10 @@ class SummonersController extends BaseController
         // @todo replace dummy data with adequate data
         $dummyData = [
             'main_role_played' => 'Top',        // matchlist, nested array key value 'lane'
-            'users_id' => 1,                    // needs to be stored in cache when logged in
         ];
 
         $result = array_merge($dummyData, $summonerData, ['division_ranks_id' => $divisionId]);
+        $result['users_id'] = $_SESSION['user']['id'];
 
         $summoner->fill($result);
 
