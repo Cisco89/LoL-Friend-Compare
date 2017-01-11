@@ -78,10 +78,19 @@ class UsersController extends BaseController
             exit();
         }
 
+        header('Location: http://lol-friend-compare.local/users/dashboard');
+        exit();
+    }
+
+    /**
+     * @return string
+     */
+    public function dashboard()
+    {
         /** @var UsersModel $user */
         $user = $this->userModel->where('id', $_SESSION['user']['id'])->get()->first();
 
-        return $this->view->render('welcome_user.html', ['summoners'=>$user->summoners()->getResults()->all()]);
+        return $this->view->render('user_dashboard.html', ['summoners'=>$user->summoners()->getResults()->all()]);
     }
 
     /**
