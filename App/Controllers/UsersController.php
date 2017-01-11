@@ -63,6 +63,11 @@ class UsersController extends BaseController
      */
     public function login()
     {
+        if ($this->isLoggedIn()) {
+
+            header('Location: http://lol-friend-compare.local/users/dashboard');
+            exit();
+        }
         return $this->view->render('users_login.html');
     }
 

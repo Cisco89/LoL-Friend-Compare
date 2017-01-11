@@ -15,5 +15,9 @@ abstract class BaseController
         $this->view = new \Twig_Environment($loader);
 
     }
+
+    protected function isLoggedIn() {
+        return isset($_SESSION['user']['id']);
+    }
 }
 
