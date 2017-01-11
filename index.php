@@ -47,6 +47,7 @@ $route->map('GET', '/', [$container->get('UsersController'), 'create']);
 $route->map('POST', '/users/registration', [$container->get('UsersController'), 'store']);
 $route->map('GET', '/users/login', [$container->get('UsersController'), 'login']);
 $route->map('POST', '/users/login', [$container->get('UsersController'), 'validate']);
+$route->map('GET', '/users/dashboard', [$container->get('UsersController'), 'dashboard']);
 $route->map('GET', '/users/logout', [$container->get('UsersController'), 'logout']);
 $route->map('GET', '/summoners/add', [$container->get('SummonersController'), 'create']);
 $route->map('POST', '/summoners/add', [$container->get('SummonersController'), 'store']);
