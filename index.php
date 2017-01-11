@@ -45,7 +45,13 @@ $route = new \League\Route\RouteCollection($container);
 
 $route->map('GET', '/', [$container->get('UsersController'), 'create']);
 $route->map('POST', '/users/registration', [$container->get('UsersController'), 'store']);
-$route->map('GET', '/users/login', [$container->get('UsersController'), 'login']);
+$route->map('GET', '/users/login', [$container->get('UsersController'), 'login'])->middleware(function (){
+    if(!isset($_SESSION['user']['id'])){
+        return;
+    }
+    header('Location: http://lol-friend-compare.local/users/dashboard');
+    exit();
+});
 $route->map('POST', '/users/login', [$container->get('UsersController'), 'validate']);
 $route->map('GET', '/users/dashboard', [$container->get('UsersController'), 'dashboard']);
 $route->map('GET', '/users/logout', [$container->get('UsersController'), 'logout']);

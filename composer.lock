@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1eae62bdbe529daa1d49b1b46fd407cc",
-    "content-hash": "a9dc292b63d6d53cafcf69a79b851386",
+    "hash": "9a0edcb8690b7a3fc3c70f58abc26e00",
+    "content-hash": "c306579a4c362d8c1a8c421f3fc5efa0",
     "packages": [
         {
             "name": "cartalyst/sentinel",
@@ -775,16 +775,16 @@
         },
         {
             "name": "league/route",
-            "version": "2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/route.git",
-                "reference": "421ea69727b95b4d72bb9de2e847fff98db4fd51"
+                "reference": "507606b53d3935e7830aa7c48c43337bc2b1b2ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/route/zipball/421ea69727b95b4d72bb9de2e847fff98db4fd51",
-                "reference": "421ea69727b95b4d72bb9de2e847fff98db4fd51",
+                "url": "https://api.github.com/repos/thephpleague/route/zipball/507606b53d3935e7830aa7c48c43337bc2b1b2ba",
+                "reference": "507606b53d3935e7830aa7c48c43337bc2b1b2ba",
                 "shasum": ""
             },
             "require": {
@@ -803,8 +803,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev",
-                    "1.x": "1.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -833,7 +832,7 @@
                 "psr7",
                 "route"
             ],
-            "time": "2016-03-11 13:53:55"
+            "time": "2016-10-12 13:32:31"
         },
         {
             "name": "mustache/mustache",
@@ -1408,9 +1407,18 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.1.0",
+            "alias_normalized": "2.1.0.0",
+            "version": "9999999-dev",
+            "package": "league/route"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "league/route": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
