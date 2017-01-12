@@ -27,14 +27,14 @@ class SummonersController extends BaseController
 
         $data = $request->getParsedBody();
 
-        $leagueOfLegendsService = new LeagueOfLegendsService($data['name']);
+        $leagueOfLegendsService = new LeagueOfLegendsService();
+
+        $summonerData = $leagueOfLegendsService->getSummonerData($data['name']);
 
         $division = $divisionModel
-            ->where('tier', $leagueOfLegendsService->getSummonerData()['tier'])
-            ->where('division', $leagueOfLegendsService->getSummonerData()['division'])
+            ->where('tier', $summonerData['tier'])
+            ->where('division', $summonerData['division'])
             ->get();
-
-        $summonerData = $leagueOfLegendsService->getSummonerData();
 
         unset( $summonerData['tier'], $summonerData['division']);
 

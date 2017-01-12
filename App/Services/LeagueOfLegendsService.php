@@ -9,16 +9,26 @@ class LeagueOfLegendsService
 {
     protected $summonerData;
 
+    protected $api;
+
     /**
      * LeagueOfLegendsService constructor.
-     * @param $name
      */
-    public function __construct($name)
+    public function __construct()
     {
-        $api = new Api(getenv("RIOT_API_KEY"));
+        $this->api = new Api(getenv("RIOT_API_KEY"));
 
-        $summoner = $api->summoner();
-        $championMastery = $api->championmastery();
+
+    }
+
+    /**
+     * @param $name
+     * @return array
+     */
+    public function getSummonerData($name)
+    {
+        $summoner = $this->api->summoner();
+        $championMastery = $this->api->championmastery();
 
         $summonerInfo = $summoner->info($name)->raw();
 
@@ -32,7 +42,8 @@ class LeagueOfLegendsService
 
         $championsWithPoints = count($championMastery->champions($summonerInfo['id']));
 
-        $divisionRank = $api->league()->league($summonerInfo['id'], true);
+        // @todo catch exemptions
+        $divisionRank = $this->api->league()->league($summonerInfo['id'], true);
 
         $this->summonerData = array_merge(
             $summonerArray,
@@ -41,6 +52,7 @@ class LeagueOfLegendsService
             ['tier' => $divisionRank[0]->get('tier')],
             ['division' => $divisionRank[0]->get('entries')[0]->get('division')]
         );
+        return $this->summonerData;
     }
 
     /**
