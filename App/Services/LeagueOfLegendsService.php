@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use LeagueWrap\Api;
-use LeagueWrap\Dto\League;
+use LeagueWrap\Api\Matchlist;
 
 class LeagueOfLegendsService
 {
@@ -56,10 +56,16 @@ class LeagueOfLegendsService
     }
 
     /**
-     * @return array
+     * @param $summonerId
+     * @return MatchList
      */
-    public function getSummonerData()
+    public function matchlist($summonerId)
     {
-        return $this->summonerData;
+        /** @var MatchList $matchlistApi */
+        $matchlistApi = $this->api->matchlist($summonerId);
+        $matchlist = $matchlistApi->matchlist($summonerId);
+
+        return $matchlist;
+
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\DivisionRanksModel;
+use App\Models\MatchesModel;
 use App\Models\SummonersModel;
 use App\Services\LeagueOfLegendsService;
 use Zend\Diactoros\ServerRequest;
@@ -41,9 +42,7 @@ class SummonersController extends BaseController
         $divisionId = intval($division->first()->getAttributes()['id']);
 
         // @todo replace dummy data with adequate data
-        $dummyData = [
-            'main_role_played' => 'Top',        // matchlist, nested array key value 'lane'
-        ];
+        $dummyData = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
         $result = array_merge($dummyData, $summonerData, ['division_ranks_id' => $divisionId]);
         $result['users_id'] = $_SESSION['user']['id'];
