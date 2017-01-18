@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\SummonersModel;
 use App\Services\LeagueOfLegendsService;
-use LeagueWrap\Api\Matchlist;
 use Zend\Diactoros\ServerRequest;
 
 class MatchesController extends BaseController
@@ -18,17 +18,28 @@ class MatchesController extends BaseController
      */
     public function store(ServerRequest $request)
     {
+        $matches = new SummonersModel();
         $data = $request->getParsedBody();
 
-        $leagueOfLegendsService = new LeagueOfLegendsService($data['name']);
+        $leagueOfLegendsService = new LeagueOfLegendsService();
 
-        $summonerData = $leagueOfLegendsService->getSummonerData();
+        $summonerData = $leagueOfLegendsService->getSummonerData($data['name']);
 
-        $identity = $summonerData['summoner_id'];
+        $matchList = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
-        $matchList = $matches->matchlist($identity);
+        //* @todo might need to unset('region', 'platformId', 'champion', 'queue', 'season', 'timestamp', 'role')
+        for ($matchIndex = $matchList->raw()['matches']['startIndex'];
+             $matchIndex <= $matchList->raw()['matches']['endIndex'];
+             $matchIndex++) {
 
-        var_dump($matchList);
+            $result = $matchList->raw()['matches'][$matchIndex];
+
+            $result['summoner_id'] = $summonerData['summoner_id'];
+
+            $matches->fill($result);
+        }
+
+
 
     }
 

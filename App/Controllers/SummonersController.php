@@ -44,7 +44,10 @@ class SummonersController extends BaseController
         // @todo replace lane with actual aggregated data
         $lane = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
-        $result = array_merge($dummyData, $summonerData, ['division_ranks_id' => $divisionId]);
+        $result = array_merge(
+            ['main_role_played' => $lane->raw()['matches'][0]['lane']],
+            $summonerData,
+            ['division_ranks_id' => $divisionId]);
         $result['users_id'] = $_SESSION['user']['id'];
 
         $summoner->fill($result);
