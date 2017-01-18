@@ -41,8 +41,8 @@ class SummonersController extends BaseController
 
         $divisionId = intval($division->first()->getAttributes()['id']);
 
-        // @todo replace dummy data with adequate data
-        $dummyData = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
+        // @todo replace lane with actual aggregated data
+        $lane = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
         $result = array_merge($dummyData, $summonerData, ['division_ranks_id' => $divisionId]);
         $result['users_id'] = $_SESSION['user']['id'];
