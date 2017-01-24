@@ -68,11 +68,10 @@ CREATE TABLE IF NOT EXISTS matches
     match_id INT NOT NULL,
     lane ENUM('Top', 'Jungle', 'Middle', 'Bottom', 'Support') not null,
     victory BOOLEAN NULL,
-    summoners_id INT NOT NULL,
+    summoner_id INT NOT NULL,
     created_at DATETIME DEFAULT NOW() NOT NULL,
     updated_at DATETIME DEFAULT NOW() NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (summoners_id) REFERENCES summoners(id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS summoner_champions
