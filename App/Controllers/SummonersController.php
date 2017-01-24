@@ -25,6 +25,7 @@ class SummonersController extends BaseController
     {
         $summoner = new SummonersModel();
         $divisionModel = new DivisionRanksModel();
+        $matches = new MatchesModel();
 
         $data = $request->getParsedBody();
 
@@ -42,10 +43,10 @@ class SummonersController extends BaseController
         $divisionId = intval($division->first()->getAttributes()['id']);
 
         // @todo replace lane with actual aggregated data
-        $lane = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
+        $matchList = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
         $result = array_merge(
-            ['main_role_played' => $lane->raw()['matches'][0]['lane']],
+            ['main_role_played' => $matchList->raw()['matches'][0]['lane']],
             $summonerData,
             ['division_ranks_id' => $divisionId]);
         $result['users_id'] = $_SESSION['user']['id'];
@@ -53,6 +54,33 @@ class SummonersController extends BaseController
         $summoner->fill($result);
 
         if ($summoner->save()) {
+
+            //* @todo somehow convert the negative row insert into matches table
+            for ($matchIndex = $matchList->raw()['startIndex'];
+                  $matchIndex <= $matchList->raw()['endIndex'];
+                 $matchIndex++) {
+
+                    $match = $matchList->raw()['matches'][$matchIndex];
+
+                    $match['summoner_id'] = intval($summoner->getAttributes()['summoner_id']);
+
+                    $match['match_id'] = $match['matchId'];
+                    $match['lane'] = ucfirst(strtolower($match['lane']));
+                    unset(
+                        $match['region'],
+                        $match['matchId'],
+                        $match['platformId'],
+                        $match['champion'],
+                        $match['queue'],
+                        $match['season'],
+                        $match['timestamp'],
+                        $match['role'],
+                        $matches['id']
+                    );
+
+                $matches->create($match);
+            }
+
             header('Location: http://lol-friend-compare.local/summoners/add');
         }
 

@@ -11,4 +11,10 @@ class MatchesModel extends Model
      * @var string
      */
     protected $table = 'matches';
+
+    protected $fillable = [
+        'match_id',
+        'lane',
+        'summoner_id',
+    ];
 }
