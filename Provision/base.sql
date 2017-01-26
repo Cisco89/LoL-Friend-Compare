@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS summoners
 CREATE TABLE IF NOT EXISTS matches
 (
     id INT NOT NULL AUTO_INCREMENT,
-    match_id INT NOT NULL,
-    lane ENUM('Top', 'Jungle', 'Middle', 'Bottom', 'Support') not null,
+    match_id VARCHAR(255) NOT NULL,
+    lane ENUM('Top', 'Jungle', 'Mid', 'Bottom', 'Support') not null,
     victory BOOLEAN NULL,
     summoner_id INT NOT NULL,
     created_at DATETIME DEFAULT NOW() NOT NULL,
