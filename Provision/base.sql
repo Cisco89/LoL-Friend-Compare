@@ -2,13 +2,6 @@ CREATE DATABASE IF NOT EXISTS lol_friend_compare;
 
 USE lol_friend_compare;
 
-CREATE TABLE IF NOT EXISTS player_icon
-(
-  id INT NOT NULL AUTO_INCREMENT,
-  image VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS users
 (
   id INT NOT NULL AUTO_INCREMENT,
@@ -57,7 +50,6 @@ CREATE TABLE IF NOT EXISTS summoners
     created_at DATETIME DEFAULT NOW() NOT NULL,
     updated_at DATETIME DEFAULT NOW() NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (player_icon_id) REFERENCES player_icon(id),
     FOREIGN KEY (users_id) REFERENCES users(id),
     FOREIGN KEY (division_ranks_id) REFERENCES division_ranks(id)
 );
