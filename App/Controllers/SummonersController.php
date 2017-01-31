@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\DivisionRanksModel;
-use App\Models\MatchesModel;
 use App\Models\SummonersModel;
 use App\Services\LeagueOfLegendsService;
 use Zend\Diactoros\ServerRequest;
@@ -23,12 +22,11 @@ class SummonersController extends BaseController
      */
     public function store(ServerRequest $request)
     {
-        $summoner = new SummonersModel();
-        $divisionModel = new DivisionRanksModel();
+        $summoner               = new SummonersModel();
+        $divisionModel          = new DivisionRanksModel();
+        $leagueOfLegendsService = new LeagueOfLegendsService();
 
         $data = $request->getParsedBody();
-
-        $leagueOfLegendsService = new LeagueOfLegendsService();
 
         $summonerData = $leagueOfLegendsService->getSummonerData($data['name']);
 
