@@ -16,5 +16,6 @@ class MatchesModel extends Model
         'match_id',
         'lane',
         'summoner_id',
+        'role',
     ];
 }

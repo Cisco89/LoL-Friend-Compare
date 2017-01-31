@@ -98,8 +98,7 @@ class LeagueOfLegendsService
                 $match['champion'],
                 $match['queue'],
                 $match['season'],
-                $match['timestamp'],
-                $match['role']
+                $match['timestamp']
             );
 
             $matches->create($match)[$matchIndex];
