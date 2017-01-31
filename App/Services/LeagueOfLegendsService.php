@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\MatchesModel;
+use App\Models\SummonersModel;
 use LeagueWrap\Api;
 use LeagueWrap\Api\Matchlist;
 
@@ -66,6 +68,42 @@ class LeagueOfLegendsService
         $matchlist = $matchlistApi->matchlist($summonerId);
 
         return $matchlist;
+
+    }
+
+    /**
+     * @param $summonerId
+     * @return mixed
+     */
+    public function rawMatchlist($summonerId)
+    {
+        $summoner = new SummonersModel();
+        $matches = new MatchesModel();
+
+        $matchList = $this->matchlist($summonerId);
+
+        for ($matchIndex = $matchList->raw()['startIndex'];
+             $matchIndex  < $matchList->raw()['endIndex'];
+             $matchIndex++) {
+
+            $match = $matchList->raw()['matches'][$matchIndex];
+            $match['summoner_id'] = intval($summoner->getAttributes()['summoner_id']);
+            $match['match_id'] = (string)$match['matchId'];
+            $match['lane'] = ucfirst(strtolower($match['lane']));
+
+            unset(
+                $match['region'],
+                $match['matchId'],
+                $match['platformId'],
+                $match['champion'],
+                $match['queue'],
+                $match['season'],
+                $match['timestamp'],
+                $match['role']
+            );
+
+            $matches->create($match)[$matchIndex];
+        }
 
     }
 }

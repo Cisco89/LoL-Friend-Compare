@@ -25,7 +25,6 @@ class SummonersController extends BaseController
     {
         $summoner = new SummonersModel();
         $divisionModel = new DivisionRanksModel();
-        $matches = new MatchesModel();
 
         $data = $request->getParsedBody();
 
@@ -55,29 +54,7 @@ class SummonersController extends BaseController
 
         if ($summoner->save()) {
 
-            //* @todo somehow convert the negative row insert into matches table
-            for ($matchIndex = $matchList->raw()['startIndex'];
-                $matchIndex  < $matchList->raw()['endIndex'];
-                $matchIndex++) {
-
-                $match = $matchList->raw()['matches'][$matchIndex];
-                $match['summoner_id']   = intval($summoner->getAttributes()['summoner_id']);
-                $match['match_id']      = (string) $match['matchId'];
-                $match['lane']          = ucfirst(strtolower($match['lane']));
-
-                unset(
-                    $match['region'],
-                    $match['matchId'],
-                    $match['platformId'],
-                    $match['champion'],
-                    $match['queue'],
-                    $match['season'],
-                    $match['timestamp'],
-                    $match['role']
-                );
-
-                $matches->create($match);
-            }
+            $leagueOfLegendsService->rawMatchlist($summoner['summoner_id']);
 
             header('Location: http://lol-friend-compare.local/summoners/add');
         }
