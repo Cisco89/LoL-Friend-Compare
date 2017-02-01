@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS matches
     id INT NOT NULL AUTO_INCREMENT,
     match_id VARCHAR(255) NOT NULL,
     lane ENUM('Top', 'Jungle', 'Mid', 'Bottom', 'Support') not null,
-    role VARCHAR(45) NULL,
+    role VARCHAR(255) NULL,
     victory BOOLEAN NULL,
     summoner_id INT NOT NULL,
     created_at DATETIME DEFAULT NOW() NOT NULL,
