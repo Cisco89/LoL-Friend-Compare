@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\DivisionRanksModel;
+use App\Models\MatchesModel;
 use App\Models\SummonersModel;
 use App\Services\LeagueOfLegendsService;
 use Zend\Diactoros\ServerRequest;
@@ -25,6 +26,7 @@ class SummonersController extends BaseController
         $summoner               = new SummonersModel();
         $divisionModel          = new DivisionRanksModel();
         $leagueOfLegendsService = new LeagueOfLegendsService();
+        $matches                = new MatchesModel();
 
         $data = $request->getParsedBody();
 
@@ -52,7 +54,9 @@ class SummonersController extends BaseController
 
         if ($summoner->save()) {
 
-            $leagueOfLegendsService->getMatchlist($summoner['summoner_id']);
+            $matchesArray = $leagueOfLegendsService->getMatchlist($summoner['summoner_id']);
+
+            $matches->insert($matchesArray);
 
             header('Location: http://lol-friend-compare.local/summoners/add');
         }
