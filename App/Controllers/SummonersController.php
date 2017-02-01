@@ -52,7 +52,7 @@ class SummonersController extends BaseController
 
         if ($summoner->save()) {
 
-            $leagueOfLegendsService->rawMatchlist($summoner['summoner_id']);
+            $leagueOfLegendsService->getMatchlist($summoner['summoner_id']);
 
             header('Location: http://lol-friend-compare.local/summoners/add');
         }

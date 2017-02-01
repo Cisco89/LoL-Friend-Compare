@@ -75,7 +75,7 @@ class LeagueOfLegendsService
      * @param $summonerId
      * @return mixed
      */
-    public function rawMatchlist($summonerId)
+    public function getMatchlist($summonerId)
     {
         $summoner = new SummonersModel();
         $matches = new MatchesModel();
