@@ -23,6 +23,7 @@ class SummonersController extends BaseController
      */
     public function store(ServerRequest $request)
     {
+        //* @todo The summoner model is being instantiated x 2 in this controller can be done better
         $summoner               = new SummonersModel();
         $divisionModel          = new DivisionRanksModel();
         $leagueOfLegendsService = new LeagueOfLegendsService();
@@ -39,6 +40,7 @@ class SummonersController extends BaseController
 
         unset( $summonerData['tier'], $summonerData['division']);
 
+        //* @todo couldn't I remove the whole line below and just place it on the get method?
         $divisionId = intval($division->first()->getAttributes()['id']);
 
         // @todo replace lane with actual aggregated data
