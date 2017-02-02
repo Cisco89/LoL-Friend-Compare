@@ -4,9 +4,6 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Services\AuthenticateService;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Zend\Diactoros\ServerRequest;
 
 class UsersController extends BaseController
@@ -95,7 +92,8 @@ class UsersController extends BaseController
         /** @var UsersModel $user */
         $user = $this->userModel->where('id', $_SESSION['user']['id'])->get()->first();
 
-        return $this->view->render('user_dashboard.html', ['summoners'=>$user->summoners()->getResults()->all()]);
+        return $this->view->render('user_dashboard.html',
+            ['summoners'=>$user->summoners()->getResults(['name', 'summoner_id'])->all()]);
     }
 
     /**

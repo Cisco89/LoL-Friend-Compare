@@ -23,12 +23,13 @@ class SummonersController extends BaseController
      */
     public function store(ServerRequest $request)
     {
-        $summoner = new SummonersModel();
-        $divisionModel = new DivisionRanksModel();
+        //* @todo The summoner model is being instantiated x 2 in this controller can be done better
+        $summoner               = new SummonersModel();
+        $divisionModel          = new DivisionRanksModel();
+        $leagueOfLegendsService = new LeagueOfLegendsService();
+        $matches                = new MatchesModel();
 
         $data = $request->getParsedBody();
-
-        $leagueOfLegendsService = new LeagueOfLegendsService();
 
         $summonerData = $leagueOfLegendsService->getSummonerData($data['name']);
 
@@ -39,17 +40,26 @@ class SummonersController extends BaseController
 
         unset( $summonerData['tier'], $summonerData['division']);
 
+        //* @todo couldn't I remove the whole line below and just place it on the get method?
         $divisionId = intval($division->first()->getAttributes()['id']);
 
-        // @todo replace dummy data with adequate data
-        $dummyData = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
+        // @todo replace lane with actual aggregated data
+        $matchList = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
-        $result = array_merge($dummyData, $summonerData, ['division_ranks_id' => $divisionId]);
+        $result = array_merge(
+            ['main_role_played' => $matchList->raw()['matches'][0]['lane']],
+            $summonerData,
+            ['division_ranks_id' => $divisionId]);
         $result['users_id'] = $_SESSION['user']['id'];
 
         $summoner->fill($result);
 
         if ($summoner->save()) {
+
+            $matchesArray = $leagueOfLegendsService->getMatchlist($summoner['summoner_id']);
+
+            $matches->insert($matchesArray);
+
             header('Location: http://lol-friend-compare.local/summoners/add');
         }
 

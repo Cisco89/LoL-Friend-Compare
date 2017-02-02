@@ -11,4 +11,13 @@
 
     {% endif %}
 
+        {% for summoner in summoners %}
+
+            <form action="/summoners/{{summoner.id}}/remove" method="GET">
+                {{ summoner.name|e }}
+                <input type="submit" value="Remove Summoner" />
+            </form>
+
+        {% endfor %}
+
 </div>

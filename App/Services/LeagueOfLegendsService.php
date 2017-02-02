@@ -63,9 +63,36 @@ class LeagueOfLegendsService
     {
         /** @var MatchList $matchlistApi */
         $matchlistApi = $this->api->matchlist($summonerId);
-        $matchlist = $matchlistApi->matchlist($summonerId);
+        $matchlist    = $matchlistApi->matchlist($summonerId);
 
         return $matchlist;
 
+    }
+
+    /**
+     * @param $summonerId
+     * @return array
+     */
+    public function getMatchlist($summonerId)
+    {
+        $matchArray = [];
+
+        $matchList = $this->matchlist($summonerId);
+
+        for ($matchIndex = $matchList->raw()['startIndex'];
+             $matchIndex < $matchList->raw()['endIndex'];
+             $matchIndex++) {
+
+            $match = $matchList->raw()['matches'][$matchIndex];
+
+            $matchArray[] = [
+                'match_id'      => (string)$match['matchId'],
+                'lane'          => ucfirst(strtolower($match['lane'])),
+                'role'          => $match['role'],
+                'summoner_id'   => $summonerId
+            ];
+        }
+
+        return $matchArray;
     }
 }
