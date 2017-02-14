@@ -112,12 +112,16 @@ class UsersController extends BaseController
 
     public function edit()
     {
-
+        return $this->view->render('manage_account.html');
     }
 
-    public function update()
+    public function update(ServerRequest $request)
     {
+        $credentials = [
+            'email' => $request->getParsedBody()['email']
+        ];
 
+        $this->authenticateService->updateEmail($credentials);
     }
 
     public function destroy()

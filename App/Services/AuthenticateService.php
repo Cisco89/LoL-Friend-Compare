@@ -68,6 +68,9 @@ class AuthenticateService
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function logout()
     {
         // @todo logout user from current session, provide a validation page that states logout was successful
@@ -75,6 +78,18 @@ class AuthenticateService
         session_destroy();
 
         return $this->sentinel->logout();
+    }
+
+    public function updatePassword()
+    {
+
+    }
+
+    public function updateEmail($email)
+    {
+        $user = $_SESSION['user']['id'];
+
+        $this->sentinel->update($user, $email);
     }
 
     public function resetPassword()
