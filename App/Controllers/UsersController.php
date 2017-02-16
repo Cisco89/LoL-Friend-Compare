@@ -117,11 +117,28 @@ class UsersController extends BaseController
 
     public function update(ServerRequest $request)
     {
-        $credentials = [
-            'email' => $request->getParsedBody()['email']
-        ];
+        if ($request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
+            // @todo: Render view explaining failure
+            return false;
+        }
 
-        $this->authenticateService->updateEmail($credentials);
+        $credentials = [];
+
+        if($request->getParsedBody()['email']) {
+            $credentials['email'] = $request->getParsedBody()['email'];
+        }
+
+        if($request->getParsedBody()['password']) {
+            $credentials['password'] = $request->getParsedBody()['password'];
+        }
+
+        if(!sizeof($credentials)) {
+            // @todo: render view saying we need email or password to update
+        }
+
+        $this->authenticateService->update($credentials);
+
+        // @todo: Render view for success
     }
 
     public function destroy()

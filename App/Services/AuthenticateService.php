@@ -40,9 +40,7 @@ class AuthenticateService
 
         $credentials = $request->getParsedBody();
         unset($credentials['repeatPassword']);
-
         return $this->sentinel->register($credentials);
-
 
     }
 
@@ -80,16 +78,11 @@ class AuthenticateService
         return $this->sentinel->logout();
     }
 
-    public function updatePassword()
-    {
-
-    }
-
-    public function updateEmail($email)
+    public function update($credentials)
     {
         $user = $_SESSION['user']['id'];
 
-        $this->sentinel->update($user, $email);
+        $this->sentinel->update($user, $credentials);
     }
 
     public function resetPassword()
