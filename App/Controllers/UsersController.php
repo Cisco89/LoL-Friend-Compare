@@ -118,8 +118,8 @@ class UsersController extends BaseController
     public function update(ServerRequest $request)
     {
         if ($request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
-            // @todo: Render view explaining failure
-            return false;
+
+            return $this->view->render('failed_password_match.html');
         }
 
         $credentials = [];
@@ -133,12 +133,13 @@ class UsersController extends BaseController
         }
 
         if(!sizeof($credentials)) {
-            // @todo: render view saying we need email or password to update
+
+            return $this->view->render('need_values_to_update.html');
         }
 
         $this->authenticateService->update($credentials);
 
-        // @todo: Render view for success
+        return $this->view->render('successful_update.html');
     }
 
     public function destroy()
