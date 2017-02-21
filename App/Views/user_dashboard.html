@@ -1,23 +1,30 @@
-<div>
+{% extends "Templates/global.html" %}
 
-    <h1>Welcome User</h1>
+{% block content %}
+    <div>
 
-    {% if not summoners %}
+        <h1>Welcome User</h1>
 
-    <form action="/summoners/add" method="POST">
-        <input type="text" placeholder="Summoner Name" name="name"/>
-        <input type="submit" value="Add Summoner" />
-    </form>
+        {% if not summoners %}
 
-    {% endif %}
+        <form action="/summoners/add" method="POST">
+            <input type="text" placeholder="Summoner Name" name="name"/>
+            <input type="submit" value="&#xf0fe;" />
+        </form>
 
-        {% for summoner in summoners %}
+        {% endif %}
 
-            <form action="/summoners/{{summoner.id}}/remove" method="GET">
-                {{ summoner.name|e }}
-                <input type="submit" value="Remove Summoner" />
-            </form>
+            {% for summoner in summoners %}
 
-        {% endfor %}
+                <form action="/summoners/{{summoner.id}}/remove" method="GET">
+                    {{ summoner.name }}
+                    <div class="hint--right" aria-label="Remove Summoner">
+                        <input type="submit" value="&#xf146;"/>
+                    </div>
+                </form>
 
-</div>
+            {% endfor %}
+
+        <a href="http://lol-friend-compare.local/summoners/add">Go to Add Summoners</a>
+    </div>
+{% endblock %}
