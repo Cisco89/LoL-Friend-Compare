@@ -112,7 +112,7 @@
     border-bottom-color: #383838; }
 
 .hint--bottom:before {
-    border-bottom-color: #383838; }
+    border-bottom-color: #CF4647; }
 
 .hint--left:before {
     border-left-color: #383838; }
@@ -182,10 +182,10 @@
  */
 .hint--right:before {
     margin-left: -11px;
-    margin-bottom: -3px; }
+    margin-bottom: -1px; }
 
 .hint--right:after {
-    margin-bottom: -11px; }
+    margin-bottom: -9px; }
 
 .hint--right:before, .hint--right:after {
     left: 100%;

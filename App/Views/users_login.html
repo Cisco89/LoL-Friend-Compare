@@ -1,9 +1,13 @@
-<link href="/App/Views/Css/users.css" rel="stylesheet">
+{% extends "Templates/global.html" %}
 
-<div>
-    <form action="/users/login" method="POST">
-        <input type="text" placeholder="Username" name="username"/>
-        <input type="text" placeholder="Password" name="password"/>
-        <input type="submit" value="Login" />
-    </form>
-</div>
+{% block content %}
+    <div class="center">
+        <form class="login" action="/users/login" method="POST">
+            <input type="text" placeholder="Username" name="username"/>
+            <input type="text" placeholder="Password" name="password"/>
+            <div class="float_right">
+            <input type="submit" value="&#xf090;"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}
