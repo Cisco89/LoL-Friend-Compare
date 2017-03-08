@@ -25,6 +25,35 @@ CREATE TABLE IF NOT EXISTS division_ranks
   PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS summoners
+(
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(45) NOT NULL,
+  summoner_id INT NOT NULL,
+  level INT NOT NULL,
+  total_champion_mastery INT NOT NULL,
+  main_role_played VARCHAR(45) NOT NULL,
+  champions_with_points INT NOT NULL,
+  player_icon_id INT NOT NULL,
+  division_ranks_id INT NOT NULL,
+  created_at DATETIME DEFAULT NOW() NOT NULL,
+  updated_at DATETIME DEFAULT NOW() NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (division_ranks_id) REFERENCES division_ranks(id)
+);
+
+CREATE TABLE IF NOT EXISTS user_summoners
+(
+  id INT NOT NULL AUTO_INCREMENT,
+  users_id INT NOT NULL,
+  summoners_id INT NOT NULL,
+  created_at DATETIME DEFAULT NOW() NOT NULL,
+  updated_at DATETIME DEFAULT NOW() NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (users_id) REFERENCES users(id),
+  FOREIGN KEY (summoners_id) REFERENCES summoners(id)
+);
+
 CREATE TABLE IF NOT EXISTS champions
 (
   id INT NOT NULL AUTO_INCREMENT,
@@ -33,25 +62,6 @@ CREATE TABLE IF NOT EXISTS champions
   created_at DATETIME DEFAULT NOW() NOT NULL,
   updated_at DATETIME DEFAULT NOW() NOT NULL,
   PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS summoners
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(45) NOT NULL,
-    summoner_id INT NOT NULL,
-    level INT NOT NULL,
-    total_champion_mastery INT NOT NULL,
-    main_role_played VARCHAR(45) NOT NULL,
-    champions_with_points INT NOT NULL,
-    player_icon_id INT NOT NULL,
-    users_id INT NOT NULL,
-    division_ranks_id INT NOT NULL,
-    created_at DATETIME DEFAULT NOW() NOT NULL,
-    updated_at DATETIME DEFAULT NOW() NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (users_id) REFERENCES users(id),
-    FOREIGN KEY (division_ranks_id) REFERENCES division_ranks(id)
 );
 
 CREATE TABLE IF NOT EXISTS matches
