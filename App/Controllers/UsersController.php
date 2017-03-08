@@ -117,6 +117,7 @@ class UsersController extends BaseController
 
     public function update(ServerRequest $request)
     {
+        // @todo flash messages to a single error page
         if ($request->getParsedBody()['password'] !== $request->getParsedBody()['repeatPassword']) {
 
             return $this->view->render('failed_password_match.html');
