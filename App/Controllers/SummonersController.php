@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\DivisionRanksModel;
 use App\Models\MatchesModel;
 use App\Models\SummonersModel;
+use App\Models\UsersModel;
 use App\Services\LeagueOfLegendsService;
 use Zend\Diactoros\ServerRequest;
 
@@ -24,10 +25,13 @@ class SummonersController extends BaseController
     public function store(ServerRequest $request)
     {
         //* @todo The summoner model is being instantiated x 2 in this controller can be done better
-        $summoner               = new SummonersModel();
+        $summonerModel          = new SummonersModel();
         $divisionModel          = new DivisionRanksModel();
         $leagueOfLegendsService = new LeagueOfLegendsService();
-        $matches                = new MatchesModel();
+        $matchesModel           = new MatchesModel();
+        $userModel              = new UsersModel();
+
+        $user = $userModel->find($_SESSION['user']['id']);
 
         $data = $request->getParsedBody();
 
@@ -50,15 +54,16 @@ class SummonersController extends BaseController
             ['main_role_played' => $matchList->raw()['matches'][0]['lane']],
             $summonerData,
             ['division_ranks_id' => $divisionId]);
-        $result['users_id'] = $_SESSION['user']['id'];
 
-        $summoner->fill($result);
+        $summonerModel->fill($result);
 
-        if ($summoner->save()) {
+        if ($summonerModel->save()) {
 
-            $matchesArray = $leagueOfLegendsService->getMatchlist($summoner['summoner_id']);
+            $user->summoners()->attach($summonerModel->getAttribute('id'));
 
-            $matches->insert($matchesArray);
+            $matchesArray = $leagueOfLegendsService->getMatchlist($summonerModel['summoner_id']);
+
+            $matchesModel->insert($matchesArray);
 
             header('Location: http://lol-friend-compare.local/summoners/add');
         }

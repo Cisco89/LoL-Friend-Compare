@@ -28,6 +28,6 @@ class UsersModel extends EloquentUser
      */
     public function summoners()
     {
-        return $this->hasMany(SummonersModel::class, 'users_id');
+        return $this->belongsToMany(SummonersModel::class, 'user_summoners','users_id', 'summoners_id');
     }
 }
