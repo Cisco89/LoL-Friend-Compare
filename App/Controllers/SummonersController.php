@@ -11,6 +11,29 @@ use Zend\Diactoros\ServerRequest;
 
 class SummonersController extends BaseController
 {
+
+    /**
+     * @var SummonersModel
+     */
+    private $summonerModel;
+
+    /**
+     * @var UsersModel
+     */
+    private $userModel;
+
+    /**
+     * SummonersController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->summonerModel = new SummonersModel();
+
+        $this->userModel = new UsersModel();
+    }
+
     /**
      * @return string
      */
@@ -25,48 +48,54 @@ class SummonersController extends BaseController
     public function store(ServerRequest $request)
     {
         //* @todo The summoner model is being instantiated x 2 in this controller can be done better
-        $summonerModel          = new SummonersModel();
         $divisionModel          = new DivisionRanksModel();
         $leagueOfLegendsService = new LeagueOfLegendsService();
         $matchesModel           = new MatchesModel();
-        $userModel              = new UsersModel();
 
-        $user = $userModel->find($_SESSION['user']['id']);
+        $user = $this->userModel->find($_SESSION['user']['id']);
 
         $data = $request->getParsedBody();
 
         $summonerData = $leagueOfLegendsService->getSummonerData($data['name']);
 
-        $division = $divisionModel
-            ->where('tier', $summonerData['tier'])
-            ->where('division', $summonerData['division'])
-            ->get();
+        $summoner = $this->summonerModel->where('summoner_id', '=', $summonerData['summoner_id'])->first();
+        if (!$summoner) {
 
-        unset( $summonerData['tier'], $summonerData['division']);
+            $division = $divisionModel
+                ->where('tier', $summonerData['tier'])
+                ->where('division', $summonerData['division'])
+                ->get();
 
-        //* @todo couldn't I remove the whole line below and just place it on the get method?
-        $divisionId = intval($division->first()->getAttributes()['id']);
+            unset($summonerData['tier'], $summonerData['division']);
 
-        // @todo replace lane with actual aggregated data
-        $matchList = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
+            //* @todo couldn't I remove the whole line below and just place it on the get method?
+            $divisionId = intval($division->first()->getAttributes()['id']);
 
-        $result = array_merge(
-            ['main_role_played' => $matchList->raw()['matches'][0]['lane']],
-            $summonerData,
-            ['division_ranks_id' => $divisionId]);
+            // @todo replace lane with actual aggregated data
+            $matchList = $leagueOfLegendsService->matchlist($summonerData['summoner_id']);
 
-        $summonerModel->fill($result);
+            $result = array_merge(
+                ['main_role_played' => $matchList->raw()['matches'][0]['lane']],
+                $summonerData,
+                ['division_ranks_id' => $divisionId]);
 
-        if ($summonerModel->save()) {
+            $this->summonerModel->fill($result);
 
-            $user->summoners()->attach($summonerModel->getAttribute('id'));
 
-            $matchesArray = $leagueOfLegendsService->getMatchlist($summonerModel['summoner_id']);
+            if ($this->summonerModel->save()) {
 
-            $matchesModel->insert($matchesArray);
+                $matchesArray = $leagueOfLegendsService->getMatchlist($this->summonerModel['summoner_id']);
 
-            header('Location: http://lol-friend-compare.local/summoners/add');
+                $matchesModel->insert($matchesArray);
+            }
+
         }
+
+        $this->summonerModel = $summoner ? $summoner : $this->summonerModel;
+
+        $user->summoners()->attach($this->summonerModel->getAttribute('id'));
+
+        header('Location: http://lol-friend-compare.local/summoners/add');
 
         exit();
     }
@@ -93,11 +122,8 @@ class SummonersController extends BaseController
      */
     public function destroy(ServerRequest $request, $response, $arguments)
     {
-        $summonerModel = new SummonersModel();
+        $user = $this->userModel->find($_SESSION['user']['id']);
 
-        /** @var SummonersModel $summoner */
-        $summoner = $summonerModel->find($arguments['id']);
-
-        $summoner->delete();
+        $user->summoners()->detach($this->summonerModel->getAttribute($arguments['id']));
     }
 }
