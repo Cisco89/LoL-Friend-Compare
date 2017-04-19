@@ -124,6 +124,8 @@ class SummonersController extends BaseController
     {
         $user = $this->userModel->find($_SESSION['user']['id']);
 
-        $user->summoners()->detach($this->summonerModel->getAttribute($arguments['id']));
+        $summoner = $this->summonerModel->find($arguments['id']);
+
+        $user->summoners()->detach($summoner->getAttribute('id'));
     }
 }
